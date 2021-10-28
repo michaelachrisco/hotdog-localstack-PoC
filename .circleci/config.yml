@@ -9,14 +9,15 @@ jobs:
           version: 19.03.13
       - run: |
           echo "hello world"
+          sudo apt-get update
           pip install docker-compose
           docker network create localstack-tutorial
           docker-compose up -d --build
           sudo apt install golang-go
           bash zip-it.sh
-          sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+          sudo apt-get install -y gnupg software-properties-common curl
           sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-          sudo apt-get update && sudo apt-get install terraform
+          sudo apt-get install terraform
           terraform init
           terraform plan
           terraform apply --auto-approve
