@@ -1,0 +1,16 @@
+version: '2.1'
+orbs:
+  localstack: localstack/platform@1.0
+jobs:
+  localstack-test:
+    executor: localstack/default
+    steps:
+      - localstack/startup
+      - run:
+          command: |
+            awslocal s3 mb s3://test
+            awslocal s3 ls
+workflows:
+  localstack-test:
+    jobs:
+      - localstack-test
