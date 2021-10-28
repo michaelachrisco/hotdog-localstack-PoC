@@ -15,8 +15,8 @@ services:
             - LAMBDA_DOCKER_NETWORK=localstack-tutorial
             - KINESIS_PROVIDER=kinesalite
         ports:
-            - "53:53"
-            - "53:53/udp"
+            - "54:53"
+            - "54:53/udp"
             - "443:443"
             - "4566:4566"
             - "4571:4571"
