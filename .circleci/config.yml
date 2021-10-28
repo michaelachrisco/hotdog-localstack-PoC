@@ -7,7 +7,13 @@ jobs:
       - checkout # check out the code in the project directory
       - setup_remote_docker:
           version: 19.03.13
+
       - run: |
+          sudo apt-get install unzip
+          wget https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip
+          unzip terraform_1.0.9_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          terraform --version
           echo "hello world"
           sudo apt-get update
           pip install docker-compose
@@ -15,9 +21,6 @@ jobs:
           docker-compose up -d --build
           curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
           bash zip-it.sh
-          sudo apt-get install -y gnupg software-properties-common curl
-          sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-          sudo apt-get install terraform
           terraform init
           terraform plan
           terraform apply --auto-approve
