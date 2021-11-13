@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: cimg/python:3.10.0
+      - image: localstack/localstack
     steps:
       - checkout # check out the code in the project directory
       - setup_remote_docker:
@@ -30,6 +31,11 @@ jobs:
           terraform init
           # terraform plan
           terraform apply --auto-approve
+          echo "waiting for S3.."
+          until $(nc -zv localhost 4566); do
+              printf '.'
+              sleep 1
+          done
           awslocal lambda list-functions
           awslocal dynamodb list-tables
           awslocal kinesis list-streams
