@@ -9,6 +9,9 @@ jobs:
           version: 19.03.13
 
       - run: |
+          sudo apt update
+          sudo apt install awscli
+          pip install awsebcli --upgrade --user 
           alias awslocal="aws --endpoint-url=http://localhost:4566 --region ap-southeast-2"
           aws configure set aws_access_key_id fake_id
           aws configure set aws_secret_access_key fake_access_key
@@ -19,14 +22,13 @@ jobs:
           sudo mv terraform /usr/local/bin/
           terraform --version
           echo "hello world"
-          sudo apt-get update
           pip install docker-compose
           docker network create localstack-tutorial
           docker-compose up -d --build
-          curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
-          bash zip-it.sh
+          # curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
+          # ./zip-it.sh
           terraform init
-          terraform plan
+          # terraform plan
           terraform apply --auto-approve
           awslocal lambda list-functions
           awslocal dynamodb list-tables
