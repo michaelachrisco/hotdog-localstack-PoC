@@ -9,6 +9,10 @@ jobs:
           version: 19.03.13
 
       - run: |
+          alias awslocal="aws --endpoint-url=http://localhost:4566 --region ap-southeast-2"
+          aws configure set aws_access_key_id fake_id
+          aws configure set aws_secret_access_key fake_access_key
+          aws configure set default_region ap-southeast-2
           sudo apt-get install unzip
           wget https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip
           unzip terraform_1.0.9_linux_amd64.zip
