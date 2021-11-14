@@ -2,12 +2,11 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/python:3.10.0
-      - image: localstack/localstack
+      - image: localstack/localstack:latest
     steps:
       - checkout # check out the code in the project directory
-      - setup_remote_docker:
-          version: 19.03.13
+      # - setup_remote_docker:
+      #     version: 19.03.13
 
       - run: |
           sudo apt update
@@ -23,19 +22,19 @@ jobs:
           sudo mv terraform /usr/local/bin/
           terraform --version
           echo "hello world"
-          pip install docker-compose
-          docker network create localstack-tutorial
-          docker-compose up -d --build
+          # pip install docker-compose
+          # docker network create localstack-tutorial
+          # docker-compose up -d --build
           # curl -LO https://get.golang.org/$(uname)/go_installer && chmod +x go_installer && ./go_installer && rm go_installer
           # ./zip-it.sh
           terraform init
           # terraform plan
-          terraform apply --auto-approve
           echo "waiting for S3.."
           until $(nc -zv localhost 4566); do
               printf '.'
               sleep 1
           done
+          terraform apply --auto-approve
           awslocal lambda list-functions
           awslocal dynamodb list-tables
           awslocal kinesis list-streams
